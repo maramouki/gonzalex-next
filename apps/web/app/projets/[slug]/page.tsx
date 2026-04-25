@@ -3,6 +3,8 @@ import { client } from '@/lib/sanity.client'
 import { projectBySlugQuery, allSlugsQuery, allProjectsForNextQuery, settingsQuery } from '@/lib/queries'
 import { urlFor } from '@/lib/urlFor'
 import { PortableText } from '@/components/PortableText'
+import { Header } from '@/components/Header'
+import { Footer } from '@/components/Footer'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -30,7 +32,9 @@ export default async function ProjetPage({ params }: { params: { slug: string } 
   const nextPost = otherPosts[0] ?? null
 
   return (
-    <main>
+    <>
+      <Header />
+      <main>
       {/* Header projet */}
       <section className="projet-header wrap">
         <h1 className="projet-header__title">{post.title}</h1>
@@ -103,5 +107,7 @@ export default async function ProjetPage({ params }: { params: { slug: string } 
         </a>
       </section>
     </main>
+      <Footer />
+    </>
   )
 }

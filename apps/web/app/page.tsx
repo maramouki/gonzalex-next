@@ -2,6 +2,8 @@ import { client } from '@/lib/sanity.client'
 import { allProjectsQuery, settingsQuery } from '@/lib/queries'
 import { HomeSlider } from '@/components/HomeSlider'
 import { LoaderController } from '@/components/LoaderController'
+import { Header } from '@/components/Header'
+import { Footer } from '@/components/Footer'
 
 export const dynamic = 'force-static'
 
@@ -26,9 +28,13 @@ export default async function HomePage() {
         </div>
       </div>
 
+      <Header />
+
       <main className="main-layout__main">
         <HomeSlider posts={posts ?? []} />
       </main>
+
+      <Footer />
     </div>
   )
 }

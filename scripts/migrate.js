@@ -241,7 +241,7 @@ async function main() {
            AND t.slug != 'uncategorized'`,
         [post.ID]
       )
-      const categories = catRows.map((c) => ({ name: c.name, slug: c.slug }))
+      const categories = catRows.map((c) => c.name)
 
       // Images
       const thumbnail = await uploadImageById(sanity, meta['_thumbnail_id'], db)

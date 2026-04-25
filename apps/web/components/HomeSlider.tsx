@@ -8,18 +8,26 @@ import Link from 'next/link'
 import { urlFor } from '@/lib/urlFor'
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
 
+type Category = { name: string; slug: string } | string
+
 type Post = {
   _id: string
   title: string
   slug: { current: string }
   thumbnail: SanityImageSource | null
   bgImage: SanityImageSource | null
-  categories: string[]
+  categories: Category[]
   date: string
 }
 
 function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })
+  const d = new Date(dateStr)
+  if (isNaN(d.getTime())) return ''
+  return d.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })
+}
+
+function formatCategories(categories: Category[]): string {
+  return categories?.map((c) => (typeof c === 'string' ? c : c.name)).join(', ') ?? ''
 }
 
 export function HomeSlider({ posts }: { posts: Post[] }) {
@@ -139,7 +147,7 @@ export function HomeSlider({ posts }: { posts: Post[] }) {
               </div>
               <div className="thePost__content">
                 <h2 className="thePost__title">{post.title}</h2>
-                <p className="thePost__terms">{post.categories?.join(', ')}</p>
+                <p className="thePost__terms">{formatCategories(post.categories)}</p>
                 <p className="thePost__date">{post.date ? formatDate(post.date) : ''}</p>
               </div>
             </Link>

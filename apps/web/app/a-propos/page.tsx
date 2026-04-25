@@ -2,12 +2,13 @@ import { client } from '@/lib/sanity.client'
 import { aProposQuery, settingsQuery } from '@/lib/queries'
 import { urlFor } from '@/lib/urlFor'
 import { PortableText } from '@/components/PortableText'
+import { Header } from '@/components/Header'
+import { Footer } from '@/components/Footer'
 import Image from 'next/image'
-import type { TypedObject } from '@portabletext/types'
 
 export const dynamic = 'force-static'
 
-type Service = { serviceTitle: string; serviceDesc: TypedObject[] }
+type Service = { serviceTitle: string; serviceDesc: any[] }
 type Parcour = { date: string; status: string; metier: string }
 
 export default async function AProposPage() {
@@ -17,7 +18,9 @@ export default async function AProposPage() {
   ])
 
   return (
-    <main>
+    <>
+      <Header />
+      <main>
       {/* Header */}
       <section className="gonzalex-header wrap">
         <div className="gonzalex-header__wrapper">
@@ -89,5 +92,7 @@ export default async function AProposPage() {
         </a>
       </section>
     </main>
+      <Footer />
+    </>
   )
 }
