@@ -6,6 +6,10 @@ import { PortableText } from '@/components/PortableText'
 import Link from 'next/link'
 import Image from 'next/image'
 
+type ProjectItem = { infotitle: string; infodetails: string }
+type GalleryImage = { asset?: { metadata?: { dimensions?: { width: number; height: number } } } }
+type NextProjectPost = { _id: string; title: string; slug: { current: string }; thumbnail: any }
+
 export const dynamic = 'force-static'
 
 export async function generateStaticParams() {
@@ -22,7 +26,7 @@ export default async function ProjetPage({ params }: { params: { slug: string } 
 
   if (!post) notFound()
 
-  const otherPosts = (allPosts as any[]).filter((p: any) => p._id !== post._id)
+  const otherPosts = (allPosts as NextProjectPost[]).filter((p) => p._id !== post._id)
   const nextPost = otherPosts[0] ?? null
 
   return (
@@ -45,7 +49,7 @@ export default async function ProjetPage({ params }: { params: { slug: string } 
       {/* Contenu principal */}
       <section className="projet-main wrap">
         <div className="projet-content">
-          {post.items?.map((item: any, i: number) => (
+          {post.items?.map((item: ProjectItem, i: number) => (
             <div key={i} className="content__info">
               <p className="text-small">{item.infotitle}</p>
               <p className="text-small details">{item.infodetails}</p>
@@ -56,9 +60,14 @@ export default async function ProjetPage({ params }: { params: { slug: string } 
           </div>
         </div>
 
-        {post.gallery?.map((img: any, i: number) => (
+        {post.gallery?.map((img: GalleryImage, i: number) => (
           <div key={i} className="projet__img">
-            <img src={urlFor(img).width(1400).url()} alt="" />
+            <Image
+              src={urlFor(img).width(1400).url()}
+              alt=""
+              width={img.asset?.metadata?.dimensions?.width ?? 1400}
+              height={img.asset?.metadata?.dimensions?.height ?? 900}
+            />
           </div>
         ))}
       </section>
@@ -71,7 +80,12 @@ export default async function ProjetPage({ params }: { params: { slug: string } 
             <Link href={`/projets/${nextPost.slug.current}`}>
               <div className="the-post__image">
                 {nextPost.thumbnail && (
-                  <img src={urlFor(nextPost.thumbnail).width(800).url()} alt={nextPost.title} />
+                  <Image
+                    src={urlFor(nextPost.thumbnail).width(800).url()}
+                    alt={nextPost.title}
+                    width={800}
+                    height={500}
+                  />
                 )}
               </div>
               <section className="the-post__content">
