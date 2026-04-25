@@ -21,7 +21,7 @@ function parseRepeater(metaMap, prefix, fields) {
 
   const result = []
   for (let i = 0; i < count; i++) {
-    const item = {}
+    const item = { _key: crypto.randomBytes(6).toString('hex') }
     for (const field of fields) {
       item[field] = metaMap[`${prefix}_${i}_${field}`] ?? ''
     }
@@ -122,6 +122,7 @@ async function uploadImageById(sanity, attachmentId, db) {
   const asset = await sanity.assets.upload('image', fs.createReadStream(fullPath), { filename })
   return {
     _type: 'image',
+    _key: crypto.randomBytes(6).toString('hex'),
     asset: {
       _type: 'reference',
       _ref: asset._id,

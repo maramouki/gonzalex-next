@@ -1,6 +1,7 @@
 import { client } from '@/lib/sanity.client'
 import { allProjectsQuery, settingsQuery } from '@/lib/queries'
 import { HomeSlider } from '@/components/HomeSlider'
+import { LoaderController } from '@/components/LoaderController'
 
 export const dynamic = 'force-static'
 
@@ -11,7 +12,9 @@ export default async function HomePage() {
   ])
 
   return (
-    <div className="main-layout">
+    <div className="home">
+      <LoaderController />
+
       {/* Loader */}
       <div className="loader">
         <h2>{settings?.textLoader ?? ''}</h2>
