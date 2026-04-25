@@ -5,42 +5,37 @@ import { useEffect } from 'react'
 export function LoaderController() {
   useEffect(() => {
     const loader = document.querySelector<HTMLElement>('.loader')
-    const swiperContainer = document.querySelector<HTMLElement>('.swiper-container')
+    if (!loader) return
 
-    if (!loader || !swiperContainer) return
-
-    function preloadImages(selector: string): Promise<void> {
-      return new Promise((resolve) => {
-        const images = Array.from(document.querySelectorAll<HTMLImageElement>(`${selector} img`))
-        if (images.length === 0) return resolve()
-        let loaded = 0
-        images.forEach((img) => {
-          if (img.complete) {
-            loaded++
-            if (loaded === images.length) resolve()
-          } else {
-            img.addEventListener('load', () => {
-              loaded++
-              if (loaded === images.length) resolve()
-            })
-            img.addEventListener('error', () => {
-              loaded++
-              if (loaded === images.length) resolve()
-            })
-          }
-        })
-      })
+    const hide = () => {
+      loader.style.opacity = '0'
+      setTimeout(() => { loader.style.display = 'none' }, 1000)
     }
 
-    preloadImages('.main-layout__main').then(() => {
-      setTimeout(() => {
-        if (swiperContainer) swiperContainer.style.opacity = '1'
-        if (loader) loader.style.opacity = '0'
-      }, 3000)
-      setTimeout(() => {
-        if (loader) loader.style.display = 'none'
-      }, 4000)
+    const images = Array.from(
+      document.querySelectorAll<HTMLImageElement>('.main-layout__main img')
+    )
+
+    if (images.length === 0) {
+      setTimeout(hide, 2000)
+      return
+    }
+
+    let done = 0
+    const tick = () => {
+      done++
+      if (done === images.length) setTimeout(hide, 500)
+    }
+
+    images.forEach((img) => {
+      if (img.complete) { tick(); return }
+      img.addEventListener('load', tick, { once: true })
+      img.addEventListener('error', tick, { once: true })
     })
+
+    // Fallback: force hide after 6s no matter what
+    const fallback = setTimeout(hide, 6000)
+    return () => clearTimeout(fallback)
   }, [])
 
   return null

@@ -18,7 +18,7 @@ export default async function AProposPage() {
   ])
 
   return (
-    <>
+    <div className="page-gonzalex">
       <Header />
       <main>
       {/* Header */}
@@ -93,6 +93,6 @@ export default async function AProposPage() {
       </section>
     </main>
       <Footer />
-    </>
+    </div>
   )
 }

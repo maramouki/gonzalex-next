@@ -32,7 +32,7 @@ export default async function ProjetPage({ params }: { params: { slug: string } 
   const nextPost = otherPosts[0] ?? null
 
   return (
-    <>
+    <div className="single">
       <Header />
       <main>
       {/* Header projet */}
@@ -108,6 +108,6 @@ export default async function ProjetPage({ params }: { params: { slug: string } 
       </section>
     </main>
       <Footer />
-    </>
+    </div>
   )
 }
