@@ -1,0 +1,222 @@
+.single {
+    background-color: var(--black);
+
+    h1 {
+        color: var(--white);
+        font-family: "lcsac";
+        font-weight: 400;
+    }
+
+    p,
+    a {
+        color: var(--white);
+    }
+
+    .mail a {
+        border-color: var(--white);
+
+        &::before {
+            background-color: var(--white);
+        }
+
+        &:hover {
+            color: var(--black);
+        }
+    }
+
+    .header {
+        .burger {
+            svg {
+                fill: var(--white);
+            }
+        }
+    }
+
+    .projet-header {
+        margin-top: 150px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        &__img {
+            margin-top: 120px;
+            width: 100%;
+            height: 100%;
+
+            img {
+                width: 100%;
+                height: 100%;
+                max-height: 100vh;
+                object-fit: contain;
+            }
+        }
+    }
+
+    .projet-main {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        column-gap: 24px;
+        margin-top: 100px;
+
+        .projet-content {
+            grid-column: 1/6;
+
+            .content__info {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 16px;
+
+                .details {
+                    width: 50%;
+                    opacity: 1;
+                }
+            }
+
+            .content-desc {
+                margin-top: 12vh;
+                margin-bottom: 12vh;
+            }
+        }
+
+
+
+        .projet__img {
+            grid-column: 7/13;
+
+            &:nth-child(3) {
+                grid-column: 1/5;
+                grid-row: 2/3;
+            }
+
+            &:nth-child(4) {
+                margin-top: -4vh;
+                grid-row: 3/4;
+                grid-column: 5/12;
+            }
+
+            &:nth-child(5) {
+                margin-top: -8vh;
+                grid-row: 4/5;
+                grid-column: 1/4;
+            }
+
+            &:nth-child(6) {
+                margin-top: 40vh;
+                grid-row: 5/6;
+                grid-column: 1/7;
+            }
+
+            &:nth-child(7) {
+                margin-top: 40vh;
+                grid-row: 5/6;
+                grid-column: 7/13;
+            }
+
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+    }
+
+    .more-project {
+        margin-top: 160px;
+        display: block;
+        padding-top: 24px;
+        border-top: solid 1px var(--white);
+        font-size: 16px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+    }
+
+    .the-post {
+        margin-top: 80px;
+        position: relative;
+
+        & * {
+            transition: all 1s;
+        }
+
+        &:hover {
+            .the-post__image {
+                opacity: 0.4;
+            }
+
+            .the-post__content {
+                opacity: 1;
+            }
+        }
+
+        &__image {
+            width: 100%;
+
+            img {
+                max-height: 100vh;
+                object-fit: contain;
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        &__content {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            text-align: center;
+            transform: translate(0, -50%);
+            opacity: 0;
+
+            h2 {
+                color: var(--white);
+            }
+        }
+    }
+
+    .footer {
+        margin-top: 120px;
+    }
+
+    @media screen and (max-width:768px) {
+        .projet-main {
+            row-gap: 40px;
+
+            .projet-content {
+                grid-column: 1/13;
+            }
+
+            .projet__img {
+
+                &:nth-child(2),
+                &:nth-child(3),
+                &:nth-child(4),
+                &:nth-child(5) {
+                    grid-column: 1/13;
+                    grid-row: inherit;
+                    margin-top: 0;
+                }
+
+                &:nth-child(6),
+                &:nth-child(7) {
+                    grid-row: 6/7;
+                    margin-top: 8vh;
+                }
+            }
+        }
+
+        .post {
+            .the-post {
+                .the-post__image {
+                    opacity: 0.4;
+                }
+
+                .the-post__content {
+                    opacity: 1;
+                }
+            }
+        }
+
+    }
+}

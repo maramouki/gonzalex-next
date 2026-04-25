@@ -1,0 +1,120 @@
+.header {
+    z-index: 100;
+    position: relative;
+
+    &__wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 40px;
+    }
+
+    .logo * {
+        fill: var(--white);
+    }
+
+    .burger {
+        display: none;
+    }
+
+
+    ul {
+        width: 100%;
+
+        li {
+            list-style: none;
+        }
+    }
+
+    .nav-rs {
+        display: flex;
+        gap: 16px;
+        justify-content: end;
+    }
+
+    @media screen and (max-width:1024px) {
+
+        .nav-menu,
+        .nav-rs {
+            display: none;
+        }
+
+        .burger {
+            display: inline-block;
+
+            #cross {
+                display: none;
+            }
+        }
+
+        .logo {
+            margin: 0 auto;
+        }
+
+        &--is-open {
+            .burger {
+                #cross {
+                    display: block;
+                }
+
+                #burger {
+                    display: none;
+                }
+            }
+
+            .header__wrapper {
+                position: fixed;
+                z-index: 2;
+                height: -webkit-fill-available;
+                width: -webkit-fill-available;
+                padding: 40px 80px;
+                align-items: flex-start;
+                flex-wrap: wrap;
+                background-color: var(--black);
+                justify-content: center;
+                align-content: start;
+                align-items: center;
+                top: 0;
+                left: 0;
+            }
+
+            .logo {
+                .header__logo {
+                    * {
+                        fill: var(--white);
+                    }
+                }
+            }
+
+            .nav-menu,
+            .nav-rs {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                order: 2;
+
+                li a {
+                    color: var(--white);
+                    border-color: var(--white);
+                    font-size: 28px;
+                }
+            }
+
+            .nav-rs {
+                margin-top: 16px;
+            }
+
+            .nav-menu {
+                margin-top: 24vh;
+            }
+        }
+    }
+
+    @media screen and (max-width:640px) {
+        &--is-open {
+            .header__wrapper {
+                padding: 40px 24px;
+            }
+        }
+    }
+}

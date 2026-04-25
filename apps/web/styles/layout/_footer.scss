@@ -1,0 +1,26 @@
+footer.footer {
+    color: var(--white);
+    margin-bottom: 2vh;
+
+    p {
+        display: inline-block;
+    }
+
+    &.footer--burger {
+        display: block;
+        position: fixed;
+        bottom: 2vh;
+        margin: 0 auto;
+        z-index: 100;
+        padding: 0;
+        width: 100%;
+        text-align: center;
+
+        a,
+        p,
+        .link {
+            color: var(--white);
+        }
+    }
+
+}

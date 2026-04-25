@@ -1,0 +1,7 @@
+.wrap {
+    padding: 0 24px;
+
+    @media screen and (min-width: 768px) {
+        padding: 0 80px;
+    }
+}

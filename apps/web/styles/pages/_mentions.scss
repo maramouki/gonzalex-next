@@ -1,0 +1,33 @@
+.privacy-policy {
+    background-color: var(--black);
+
+    .mentions {
+        max-width: 1200px;
+        margin: 0 auto;
+
+        h1,
+        h2,
+        p {
+            color: var(--white);
+        }
+
+        h1 {
+            margin-top: 150px;
+            text-align: center;
+        }
+
+        &-block {
+            h2 {
+                margin-top: 80px;
+            }
+
+            &__wiz {
+                margin-top: 24px;
+            }
+        }
+    }
+
+    .footer {
+        margin-top: 120px;
+    }
+}

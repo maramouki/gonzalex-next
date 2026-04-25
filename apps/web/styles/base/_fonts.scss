@@ -1,0 +1,76 @@
+/* Vegawanty  */
+@font-face {
+    font-display: swap;
+    /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Vegawanty';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/fonts/Vegawanty.ttf') format("opentype");
+}
+
+/* PowerGrotesk  */
+@font-face {
+    font-family: 'PowerGrotesk';
+    src: url('/fonts/PowerGrotesk-Regular.ttf') format("opentype");
+}
+
+
+/* LCS AC  */
+@font-face {
+    font-family: 'lcsac';
+    src: url('/fonts/LCSac Trial-Regular.ttf') format("opentype");
+}
+
+/* "calluna-sans" */
+
+// Calluna Sans Light font-family: "calluna-sans",
+// sans-serif;
+// font-weight: 300;
+// font-style: normal;
+
+// Calluna Sans Light Italic font-family: "calluna-sans",
+// sans-serif;
+// font-weight: 300;
+// font-style: italic;
+
+// Calluna Sans Regular font-family: "calluna-sans",
+// sans-serif;
+// font-weight: 400;
+// font-style: normal;
+
+// Calluna Sans Italic font-family: "calluna-sans",
+// sans-serif;
+// font-weight: 400;
+// font-style: italic;
+
+// Calluna Sans Semibold font-family: "calluna-sans",
+// sans-serif;
+// font-weight: 600;
+// font-style: normal;
+
+// Calluna Sans Semibold Italic font-family: "calluna-sans",
+// sans-serif;
+// font-weight: 600;
+// font-style: italic;
+
+// Calluna Sans Bold font-family: "calluna-sans",
+// sans-serif;
+// font-weight: 700;
+// font-style: normal;
+
+// Calluna Sans Bold Italic font-family: "calluna-sans",
+// sans-serif;
+// font-weight: 700;
+// font-style: italic;
+
+// Calluna Sans Black font-family: "calluna-sans",
+// sans-serif;
+// font-weight: 900;
+// font-style: normal;
+
+// Calluna Sans Black Italic font-family: "calluna-sans",
+// sans-serif;
+// font-weight: 900;
+// font-style: italic;
+
+@import url("https://use.typekit.net/nsq1sjt.css");

@@ -1,0 +1,261 @@
+.page-gonzalex {
+    .bouton {
+        border: solid 1px var(--black);
+        color: var(--black);
+
+        &::before {
+            background-color: var(--black);
+        }
+
+        &:hover {
+            color: var(--white);
+        }
+    }
+
+    .header__logo * {
+        fill: var(--black);
+    }
+
+    .gonzalex-header {
+        margin-top: 150px;
+
+
+        &__wrapper {
+            display: flex;
+            gap: 24px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        &__texts {
+            width: 50%;
+
+            h1 {
+                margin-bottom: 64px;
+            }
+
+            .header-text {
+                max-width: 66%;
+
+                p {
+                    margin-bottom: 24px;
+
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+
+                a {
+                    color: var(--black);
+                    text-decoration: none;
+                    position: relative;
+
+                    &::before {
+                        transition: all 0.85s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                        content: '';
+                        width: 0%;
+                        background-color: var(--black);
+                        height: 1px;
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                    }
+
+                    &:hover::before {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+
+        &__img {
+            width: 50%;
+
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+    }
+
+    /* Services */
+    .services {
+        margin-top: 80px;
+
+        h2 {
+            padding-bottom: 16px;
+            border-bottom: solid 1px var(--black);
+        }
+
+        .les-services {
+            margin-top: 32px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .service {
+            max-width: 30%;
+
+            p.caption {
+                margin-bottom: 16px;
+            }
+
+            .service__text p {
+                margin-bottom: 24px;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+
+
+    /* Image */
+    .img-full {
+        width: 100%;
+        height: auto;
+        margin-top: 80px;
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+    }
+
+
+    /* Parcours */
+    .parcours {
+        max-width: 846px;
+        margin: 0 auto;
+        margin-top: 80px;
+
+        .parcour {
+            display: flex;
+            gap: 24px;
+            margin-top: 16px;
+            padding-top: 24px;
+            border-top: solid 1px var(--black);
+
+            >p.text-small {
+                flex: none;
+                min-width: 40%;
+                max-width: 33%;
+            }
+
+            .metier {
+
+                .text-small {
+                    margin-bottom: 16px;
+                }
+            }
+        }
+    }
+
+
+
+    .footer {
+        color: var(--black);
+        margin-top: 120px;
+
+        .link {
+            color: var(--black);
+        }
+    }
+
+    @media screen and (max-width:1023px) {
+        .gonzalex-header {
+            &__wrapper {
+                flex-direction: column;
+            }
+
+            &__texts,
+            &__img {
+                width: 100%;
+            }
+
+            &__texts {
+                .header-text {
+                    max-width: 64%;
+                }
+            }
+        }
+
+        .services {
+            .les-services {
+                flex-direction: column;
+                gap: 40px;
+
+                .service {
+                    max-width: 100%;
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width:640px) {
+        h1 {
+            font-size: 40px;
+        }
+
+        .gonzalex-header {
+            &__texts {
+                .header-text {
+                    max-width: 100%;
+                }
+            }
+        }
+    }
+}
+
+.mail {
+    margin-top: 80px;
+    text-align: center;
+
+    a {
+        display: inline-block;
+        padding: 24px;
+        border: dashed 1px var(--black);
+        border-radius: 24px;
+        text-decoration: none;
+        color: var(--black);
+        text-transform: uppercase;
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+            transition: all 0.85s cubic-bezier(.71, .03, .22, .97);
+            content: '';
+            width: 100%;
+            height: 100%;
+            border-radius: 24px;
+            background: var(--black);
+            position: absolute;
+            top: 0;
+            left: -100%;
+            z-index: -1;
+
+        }
+
+        &:hover {
+            color: var(--white);
+
+            &::before {
+                left: 0;
+            }
+        }
+
+    }
+
+
+}
+
+@media screen and (max-width:1024px) {
+    .mail a {
+        font-size: 24px;
+        word-break: break-word;
+    }
+}
