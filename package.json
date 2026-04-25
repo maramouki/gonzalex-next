@@ -1,0 +1,11 @@
+{
+  "name": "gonzalex-next",
+  "private": true,
+  "workspaces": ["apps/*"],
+  "scripts": {
+    "dev:web": "npm run dev --workspace=apps/web",
+    "dev:studio": "npm run dev --workspace=apps/studio",
+    "build:web": "npm run build --workspace=apps/web",
+    "build:studio": "npm run build --workspace=apps/studio"
+  }
+}
