@@ -6,26 +6,35 @@ import { Navigation, Pagination } from 'swiper/modules'
 import 'swiper/css'
 import Link from 'next/link'
 import { urlFor } from '@/lib/urlFor'
+import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
 
 type Post = {
   _id: string
   title: string
   slug: { current: string }
-  thumbnail: any
-  bgImage: any
+  thumbnail: SanityImageSource | null
+  bgImage: SanityImageSource | null
   categories: string[]
   date: string
+}
+
+function formatDate(dateStr: string): string {
+  return new Date(dateStr).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })
 }
 
 export function HomeSlider({ posts }: { posts: Post[] }) {
   const swiperRef = useRef<Swiper | null>(null)
   const prevRef = useRef<HTMLDivElement>(null)
   const nextRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!prevRef.current || !nextRef.current) return
+    if (!containerRef.current || !prevRef.current || !nextRef.current) return
 
-    swiperRef.current = new Swiper('.swiper', {
+    const controller = new AbortController()
+    const { signal } = controller
+
+    swiperRef.current = new Swiper(containerRef.current, {
       modules: [Navigation, Pagination],
       direction: 'vertical',
       centeredSlides: true,
@@ -53,19 +62,14 @@ export function HomeSlider({ posts }: { posts: Post[] }) {
         afterInit(swiper) {
           const slides = swiper.slides
 
-          function showBG(id: number) {
-            const bgImages = Array.from(
-              document.querySelectorAll<HTMLImageElement>('.bg-container > img')
-            )
-            bgImages[id]?.style.setProperty('animation', 'fadeIn 0.5s ease-out forwards')
-          }
+          const bgImages = Array.from(
+            document.querySelectorAll<HTMLImageElement>('.bg-container > img')
+          )
 
-          function hideBG(id: number) {
-            const bgImages = Array.from(
-              document.querySelectorAll<HTMLImageElement>('.bg-container > img')
-            )
+          const showBG = (id: number) =>
+            bgImages[id]?.style.setProperty('animation', 'fadeIn 0.5s ease-out forwards')
+          const hideBG = (id: number) =>
             bgImages[id]?.style.setProperty('animation', 'fadeOut 0.3s ease-out forwards')
-          }
 
           slides.forEach((slide, index) => {
             const image = slide.querySelector('img')
@@ -73,39 +77,35 @@ export function HomeSlider({ posts }: { posts: Post[] }) {
             image.setAttribute('data-swiper-index', String(index))
             image.addEventListener('mouseover', () => {
               if (index === swiper.activeIndex) showBG(index)
-            })
+            }, { signal })
             image.addEventListener('mouseout', () => {
               if (index === swiper.activeIndex) hideBG(index)
-            })
+            }, { signal })
           })
 
           if (window.innerWidth >= 1025) {
             nextRef.current?.addEventListener('mouseover', () =>
-              document.querySelector('.swiper')?.classList.add('next-is-hover')
-            )
+              containerRef.current?.classList.add('next-is-hover')
+            , { signal })
             nextRef.current?.addEventListener('mouseout', () =>
-              document.querySelector('.swiper')?.classList.remove('next-is-hover')
-            )
+              containerRef.current?.classList.remove('next-is-hover')
+            , { signal })
             prevRef.current?.addEventListener('mouseover', () =>
-              document.querySelector('.swiper')?.classList.add('prev-is-hover')
-            )
+              containerRef.current?.classList.add('prev-is-hover')
+            , { signal })
             prevRef.current?.addEventListener('mouseout', () =>
-              document.querySelector('.swiper')?.classList.remove('prev-is-hover')
-            )
+              containerRef.current?.classList.remove('prev-is-hover')
+            , { signal })
           }
         },
       },
     })
 
     return () => {
+      controller.abort()
       swiperRef.current?.destroy(true, true)
     }
   }, [])
-
-  const formatDate = (dateStr: string) => {
-    const d = new Date(dateStr)
-    return d.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })
-  }
 
   return (
     <>
@@ -122,7 +122,7 @@ export function HomeSlider({ posts }: { posts: Post[] }) {
       </div>
 
       {/* Swiper */}
-      <div className="swiper swiper-container wrap">
+      <div ref={containerRef} className="swiper swiper-container wrap">
         <div className="swiper-wrapper">
           {posts.map((post) => (
             <Link
@@ -138,7 +138,7 @@ export function HomeSlider({ posts }: { posts: Post[] }) {
                 />
               </div>
               <div className="thePost__content">
-                <h1 className="thePost__title">{post.title}</h1>
+                <h2 className="thePost__title">{post.title}</h2>
                 <p className="thePost__terms">{post.categories?.join(', ')}</p>
                 <p className="thePost__date">{post.date ? formatDate(post.date) : ''}</p>
               </div>

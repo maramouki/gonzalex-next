@@ -2,7 +2,7 @@ import { client } from '@/lib/sanity.client'
 import { allProjectsQuery, settingsQuery } from '@/lib/queries'
 import { HomeSlider } from '@/components/HomeSlider'
 
-export const revalidate = false
+export const dynamic = 'force-static'
 
 export default async function HomePage() {
   const [posts, settings] = await Promise.all([
