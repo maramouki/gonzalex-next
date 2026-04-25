@@ -5,8 +5,8 @@ export const allProjectsQuery = groq`
     _id,
     title,
     slug,
-    thumbnail,
-    bgImage,
+    thumbnail { asset->{ _id, url }, hotspot, crop },
+    bgImage { asset->{ _id, url }, hotspot, crop },
     categories,
     date
   }
@@ -21,13 +21,13 @@ export const projectBySlugQuery = groq`
     _id,
     title,
     slug,
-    thumbnail,
-    bgImage,
+    thumbnail { asset->{ _id, url, metadata { dimensions } }, hotspot, crop },
+    bgImage { asset->{ _id, url }, hotspot, crop },
     categories,
     date,
     desc,
     items,
-    gallery
+    gallery[] { asset->{ _id, url, metadata { dimensions } }, hotspot, crop }
   }
 `
 
@@ -36,7 +36,7 @@ export const allProjectsForNextQuery = groq`
     _id,
     title,
     slug,
-    thumbnail
+    thumbnail { asset->{ _id, url }, hotspot, crop }
   }
 `
 
@@ -44,12 +44,15 @@ export const aProposQuery = groq`
   *[_type == "aPropos"][0] {
     title,
     desc,
-    imgPrez,
+    imgPrez { asset->{ _id, url, metadata { dimensions } }, hotspot, crop },
     serviceH2,
-    services,
-    imgFull,
+    services[] {
+      serviceTitle,
+      serviceDesc
+    },
+    imgFull { asset->{ _id, url }, hotspot, crop },
     parcoursH2,
-    parcours
+    parcours[] { date, status, metier }
   }
 `
 
