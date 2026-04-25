@@ -3,10 +3,11 @@ import { aProposQuery, settingsQuery } from '@/lib/queries'
 import { urlFor } from '@/lib/urlFor'
 import { PortableText } from '@/components/PortableText'
 import Image from 'next/image'
+import type { TypedObject } from '@portabletext/types'
 
 export const dynamic = 'force-static'
 
-type Service = { serviceTitle: string; serviceDesc: any }
+type Service = { serviceTitle: string; serviceDesc: TypedObject[] }
 type Parcour = { date: string; status: string; metier: string }
 
 export default async function AProposPage() {
@@ -57,7 +58,13 @@ export default async function AProposPage() {
       {/* Image pleine largeur */}
       {page?.imgFull && (
         <section className="img-full">
-          <img src={urlFor(page.imgFull).width(1920).url()} alt="" />
+          <Image
+            src={urlFor(page.imgFull).width(1920).url()}
+            alt=""
+            width={1920}
+            height={1080}
+            style={{ width: '100%', height: 'auto' }}
+          />
         </section>
       )}
 
