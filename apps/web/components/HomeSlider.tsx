@@ -79,7 +79,7 @@ export function HomeSlider({ posts }: { posts: Post[] }) {
             })
           })
 
-          if (window.innerWidth >= 1024) {
+          if (window.innerWidth >= 1025) {
             nextRef.current?.addEventListener('mouseover', () =>
               document.querySelector('.swiper')?.classList.add('next-is-hover')
             )
