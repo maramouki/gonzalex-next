@@ -10,7 +10,13 @@ export function Header() {
     <header id="header" className={`header${isOpen ? ' header--is-open' : ''}`}>
       <div className="header__wrapper wrap">
         {/* Burger */}
-        <div className="burger" onClick={() => setIsOpen(!isOpen)}>
+        <button
+          className="burger"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-expanded={isOpen}
+          aria-label={isOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+          type="button"
+        >
           {!isOpen ? (
             <svg id="burger" xmlns="http://www.w3.org/2000/svg" width="33" height="33" fill="currentColor">
               <path fillRule="evenodd" d="m3 16.078 27-.002v2l-27 .002v-2ZM3 8h14.5v2H3V8ZM15.5 23H30v2H15.5v-2Z" clipRule="evenodd"/>
@@ -20,7 +26,7 @@ export function Header() {
               <path stroke="#fff" strokeLinecap="round" strokeWidth="2" d="M9.193 27.578 27.577 9.192M27.578 27.576 9.192 9.192"/>
             </svg>
           )}
-        </div>
+        </button>
 
         {/* Nav menu */}
         <ul className="nav-menu">
@@ -47,10 +53,10 @@ export function Header() {
         {/* Réseaux sociaux — à personnaliser avec les vraies URLs */}
         <ul className="nav-rs">
           <li className="nav-rs-item">
-            <a className="nav-rs-link bouton" target="_blank" rel="noreferrer" href="#">LinkedIn</a>
+            <a className="nav-rs-link bouton" target="_blank" rel="noreferrer" href="https://www.linkedin.com/in/gonzalex">LinkedIn</a>
           </li>
           <li className="nav-rs-item">
-            <a className="nav-rs-link bouton" target="_blank" rel="noreferrer" href="#">Instagram</a>
+            <a className="nav-rs-link bouton" target="_blank" rel="noreferrer" href="https://www.instagram.com/gonzalex">Instagram</a>
           </li>
         </ul>
       </div>
