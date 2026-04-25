@@ -1,0 +1,14 @@
+{
+  "name": "scripts",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "migrate": "node migrate.js",
+    "test": "node --test migrate.test.js"
+  },
+  "dependencies": {
+    "@sanity/client": "^6.0.0",
+    "mysql2": "^3.0.0",
+    "phpunserialize": "^1.3.0"
+  }
+}
