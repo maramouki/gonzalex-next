@@ -1,0 +1,93 @@
+import { notFound } from 'next/navigation'
+import { client } from '@/lib/sanity.client'
+import { projectBySlugQuery, allSlugsQuery, allProjectsForNextQuery, settingsQuery } from '@/lib/queries'
+import { urlFor } from '@/lib/urlFor'
+import { PortableText } from '@/components/PortableText'
+import Link from 'next/link'
+import Image from 'next/image'
+
+export const dynamic = 'force-static'
+
+export async function generateStaticParams() {
+  const slugs: { slug: string }[] = await client.fetch(allSlugsQuery)
+  return slugs.map((s) => ({ slug: s.slug }))
+}
+
+export default async function ProjetPage({ params }: { params: { slug: string } }) {
+  const [post, allPosts, settings] = await Promise.all([
+    client.fetch(projectBySlugQuery, { slug: params.slug }),
+    client.fetch(allProjectsForNextQuery),
+    client.fetch(settingsQuery),
+  ])
+
+  if (!post) notFound()
+
+  const otherPosts = (allPosts as any[]).filter((p: any) => p._id !== post._id)
+  const nextPost = otherPosts[0] ?? null
+
+  return (
+    <main>
+      {/* Header projet */}
+      <section className="projet-header wrap">
+        <h1 className="projet-header__title">{post.title}</h1>
+        {post.thumbnail && (
+          <div className="projet-header__img">
+            <Image
+              src={urlFor(post.thumbnail).width(1200).url()}
+              alt={post.title}
+              width={post.thumbnail.asset?.metadata?.dimensions?.width ?? 1200}
+              height={post.thumbnail.asset?.metadata?.dimensions?.height ?? 800}
+            />
+          </div>
+        )}
+      </section>
+
+      {/* Contenu principal */}
+      <section className="projet-main wrap">
+        <div className="projet-content">
+          {post.items?.map((item: any, i: number) => (
+            <div key={i} className="content__info">
+              <p className="text-small">{item.infotitle}</p>
+              <p className="text-small details">{item.infodetails}</p>
+            </div>
+          ))}
+          <div className="content-desc">
+            {post.desc && <PortableText value={post.desc} />}
+          </div>
+        </div>
+
+        {post.gallery?.map((img: any, i: number) => (
+          <div key={i} className="projet__img">
+            <img src={urlFor(img).width(1400).url()} alt="" />
+          </div>
+        ))}
+      </section>
+
+      {/* Projet suivant */}
+      {nextPost && (
+        <section className="post wrap">
+          <p className="more-project">Plus de projet</p>
+          <article className="the-post">
+            <Link href={`/projets/${nextPost.slug.current}`}>
+              <div className="the-post__image">
+                {nextPost.thumbnail && (
+                  <img src={urlFor(nextPost.thumbnail).width(800).url()} alt={nextPost.title} />
+                )}
+              </div>
+              <section className="the-post__content">
+                <h2 className="the-post__title display-xl">{nextPost.title}</h2>
+              </section>
+            </Link>
+          </article>
+        </section>
+      )}
+
+      {/* Mail */}
+      <section className="mail wrap">
+        <a href={`mailto:${settings?.mail}`} className="display">
+          {settings?.mail}
+        </a>
+      </section>
+    </main>
+  )
+}
