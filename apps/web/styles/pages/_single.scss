@@ -183,9 +183,12 @@
             text-align: center;
             transform: translate(0, -50%);
             opacity: 0;
+            padding: 0 16px;
+            box-sizing: border-box;
 
             h2 {
                 color: var(--white);
+                word-break: break-word;
             }
         }
     }
@@ -262,6 +265,11 @@
 
         .more-project {
             margin-top: 80px;
+        }
+
+        .the-post__content h2 {
+            font-size: 20px;
+            letter-spacing: 3px;
         }
 
         .post {

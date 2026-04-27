@@ -227,6 +227,7 @@
         text-transform: uppercase;
         position: relative;
         overflow: hidden;
+        isolation: isolate;
 
         &::before {
             transition: all 0.85s cubic-bezier(.71, .03, .22, .97);
