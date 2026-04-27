@@ -138,12 +138,18 @@ export function HomeSlider({ posts }: { posts: Post[] }) {
 
     rafId = requestAnimationFrame(tick)
 
-    // Pause on hover over swiper container
+    // Pause only when hovering a slide (not the whole container)
     const pauseAP = () => { paused = true }
-    const resumeAP = () => { startTime = performance.now() - (AUTOPLAY_DELAY * (1 - (CIRCLE_CIRCUMFERENCE - parseFloat(circleRef.current?.style.strokeDashoffset || String(CIRCLE_CIRCUMFERENCE))) / CIRCLE_CIRCUMFERENCE)); paused = false }
+    const resumeAP = () => {
+      startTime = performance.now() - (AUTOPLAY_DELAY * (1 - (CIRCLE_CIRCUMFERENCE - parseFloat(circleRef.current?.style.strokeDashoffset || String(CIRCLE_CIRCUMFERENCE))) / CIRCLE_CIRCUMFERENCE))
+      paused = false
+    }
 
-    containerRef.current.addEventListener('mouseenter', pauseAP, { signal })
-    containerRef.current.addEventListener('mouseleave', resumeAP, { signal })
+    const slides = containerRef.current.querySelectorAll<HTMLElement>('.thePost')
+    slides.forEach((slide) => {
+      slide.addEventListener('mouseenter', pauseAP, { signal })
+      slide.addEventListener('mouseleave', resumeAP, { signal })
+    })
 
     // Reset on manual slide change
     swiperRef.current.on('slideChange', resetProgress)
