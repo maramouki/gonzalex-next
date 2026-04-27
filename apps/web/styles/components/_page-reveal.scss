@@ -1,0 +1,13 @@
+.page-reveal {
+    position: fixed;
+    inset: 0;
+    background-color: var(--black);
+    z-index: 9999;
+    transform: translateY(0);
+    transition: transform 0.75s cubic-bezier(0.76, 0, 0.24, 1);
+    pointer-events: none;
+
+    &--out {
+        transform: translateY(-100%);
+    }
+}

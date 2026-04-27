@@ -138,21 +138,28 @@ export function HomeSlider({ posts }: { posts: Post[] }) {
 
     rafId = requestAnimationFrame(tick)
 
-    // Pause only when hovering a slide (not the whole container)
+    // Pause only when hovering a real slide (exclude Swiper loop clones)
     const pauseAP = () => { paused = true }
     const resumeAP = () => {
-      startTime = performance.now() - (AUTOPLAY_DELAY * (1 - (CIRCLE_CIRCUMFERENCE - parseFloat(circleRef.current?.style.strokeDashoffset || String(CIRCLE_CIRCUMFERENCE))) / CIRCLE_CIRCUMFERENCE))
+      // Resume from the exact progress position where we paused
+      const offset = parseFloat(circleRef.current?.style.strokeDashoffset || String(CIRCLE_CIRCUMFERENCE))
+      const progress = (CIRCLE_CIRCUMFERENCE - offset) / CIRCLE_CIRCUMFERENCE
+      startTime = performance.now() - AUTOPLAY_DELAY * progress
       paused = false
     }
 
-    const slides = containerRef.current.querySelectorAll<HTMLElement>('.thePost')
+    // Exclude swiper-slide-duplicate (loop clones) to avoid mouseenter/leave mismatch
+    const slides = containerRef.current.querySelectorAll<HTMLElement>('.thePost:not(.swiper-slide-duplicate)')
     slides.forEach((slide) => {
       slide.addEventListener('mouseenter', pauseAP, { signal })
       slide.addEventListener('mouseleave', resumeAP, { signal })
     })
 
-    // Reset on manual slide change
-    swiperRef.current.on('slideChange', resetProgress)
+    // Reset on manual slide change + safety resume in case paused got stuck
+    swiperRef.current.on('slideChange', () => {
+      resetProgress()
+      paused = false
+    })
 
     const handleResize = () => {
       const swiper = swiperRef.current
