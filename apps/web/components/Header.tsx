@@ -9,6 +9,7 @@ export function Header() {
   const pathname = usePathname()
   const isHome = pathname === '/'
   const isAbout = pathname === '/a-propos'
+  const isProject = pathname.startsWith('/projets')
 
   return (
     <header id="header" className={`header${isOpen ? ' header--is-open' : ''}`}>
@@ -34,7 +35,7 @@ export function Header() {
 
         {/* Nav menu */}
         <ul className="nav-menu">
-          {!isHome && (
+          {!isHome && !isProject && (
             <li className="nav-main-item">
               <Link href="/" className="nav-main-link bouton">Projets</Link>
             </li>
