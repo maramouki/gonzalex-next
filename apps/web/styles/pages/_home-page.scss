@@ -116,12 +116,10 @@
     @keyframes fadeIn {
         0% {
             opacity: 0;
-            // transform: translateX(-200vw);
         }
 
         100% {
             opacity: 1;
-            transform: translateX(0);
         }
     }
 
@@ -393,17 +391,27 @@
             }
 
             .swiper-button {
-                position: initial;
-                display: initial;
-                top: initial;
-                bottom: initial;
-                left: initial;
-                right: initial;
+                position: static;
+                display: block;
+                width: 0;
+                height: 0;
+                transform: none;
 
                 &-prev,
                 &-next {
-                    position: absolute;
-                    transform: none;
+                    position: fixed;
+                    top: 50vh;
+                    transform: translateY(-50%);
+                    z-index: 200;
+                    cursor: pointer;
+                }
+
+                &-prev {
+                    left: 16px;
+                }
+
+                &-next {
+                    right: 16px;
                 }
             }
         }

@@ -8,11 +8,13 @@ import Link from 'next/link'
 import { urlFor } from '@/lib/urlFor'
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
 
+const DESKTOP_BP = 1025
+
 type Category = { name: string; slug: string } | string
 
 type Post = {
   _id: string
-  title: string
+  title: string | null
   slug: { current: string }
   thumbnail: SanityImageSource | null
   bgImage: SanityImageSource | null
@@ -41,14 +43,17 @@ export function HomeSlider({ posts }: { posts: Post[] }) {
 
     const controller = new AbortController()
     const { signal } = controller
+    const isDesktop = () => window.innerWidth >= DESKTOP_BP
 
     swiperRef.current = new Swiper(containerRef.current, {
       modules: [Navigation, Pagination],
-      direction: 'vertical',
+      direction: isDesktop() ? 'horizontal' : 'vertical',
+      loop: true,
       centeredSlides: true,
       slidesPerView: 1.5,
       speed: 2000,
-      spaceBetween: 40,
+      spaceBetween: isDesktop() ? 0 : 40,
+      allowTouchMove: !isDesktop(),
       pagination: {
         el: '.swiper-pagination',
         dynamicBullets: true,
@@ -56,15 +61,6 @@ export function HomeSlider({ posts }: { posts: Post[] }) {
       navigation: {
         nextEl: nextRef.current,
         prevEl: prevRef.current,
-      },
-      breakpoints: {
-        1025: {
-          direction: 'horizontal' as const,
-          slidesPerView: 1.5,
-          centeredSlides: true,
-          spaceBetween: 0,
-          allowTouchMove: false,
-        },
       },
       on: {
         afterInit(swiper) {
@@ -91,7 +87,7 @@ export function HomeSlider({ posts }: { posts: Post[] }) {
             }, { signal })
           })
 
-          if (window.innerWidth >= 1025) {
+          if (isDesktop()) {
             nextRef.current?.addEventListener('mouseover', () =>
               containerRef.current?.classList.add('next-is-hover')
             , { signal })
@@ -108,6 +104,26 @@ export function HomeSlider({ posts }: { posts: Post[] }) {
         },
       },
     })
+
+    // direction cannot be set in breakpoints — handle via resize
+    const handleResize = () => {
+      const swiper = swiperRef.current
+      if (!swiper) return
+      const desktop = isDesktop()
+      if (desktop && swiper.params.direction !== 'horizontal') {
+        swiper.changeDirection('horizontal')
+        swiper.params.spaceBetween = 0
+        swiper.params.allowTouchMove = false
+        swiper.update()
+      } else if (!desktop && swiper.params.direction !== 'vertical') {
+        swiper.changeDirection('vertical')
+        swiper.params.spaceBetween = 40
+        swiper.params.allowTouchMove = true
+        swiper.update()
+      }
+    }
+
+    window.addEventListener('resize', handleResize, { signal })
 
     return () => {
       controller.abort()
@@ -142,11 +158,11 @@ export function HomeSlider({ posts }: { posts: Post[] }) {
               <div className="thePost__img">
                 <img
                   src={post.thumbnail ? urlFor(post.thumbnail).width(800).url() : ''}
-                  alt={post.title}
+                  alt={post.title ?? ''}
                 />
               </div>
               <div className="thePost__content">
-                <h2 className="thePost__title">{post.title}</h2>
+                <h2 className="thePost__title">{post.title ?? ''}</h2>
                 <p className="thePost__terms">{formatCategories(post.categories)}</p>
                 <p className="thePost__date">{post.date ? formatDate(post.date) : ''}</p>
               </div>
