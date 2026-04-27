@@ -44,6 +44,7 @@
             width: 100%;
             height: 100%;
             background-color: var(--black);
+            overflow: hidden;
 
             img {
                 width: 100%;
@@ -51,6 +52,11 @@
                 max-height: 100vh;
                 object-fit: contain;
                 display: block;
+                transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            }
+
+            &:hover img {
+                transform: scale(1.03);
             }
         }
     }
@@ -86,6 +92,7 @@
 
         .projet__img {
             grid-column: 7/13;
+            overflow: hidden;
 
             &:nth-child(3) {
                 grid-column: 1/5;
@@ -119,6 +126,12 @@
             img {
                 width: 100%;
                 height: auto;
+                display: block;
+                transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            }
+
+            &:hover img {
+                transform: scale(1.04);
             }
         }
 
@@ -181,12 +194,51 @@
         margin-top: 120px;
     }
 
+    @media screen and (max-width:1024px) {
+        .projet-header {
+            margin-top: 80px;
+
+            &__img {
+                margin-top: 60px;
+            }
+        }
+
+        .projet-main {
+            margin-top: 60px;
+
+            .projet-content {
+                .content-desc {
+                    margin-top: 6vh;
+                    margin-bottom: 6vh;
+                }
+            }
+        }
+    }
+
     @media screen and (max-width:768px) {
+        h1 {
+            font-size: 36px;
+        }
+
+        .projet-header {
+            margin-top: 60px;
+
+            &__img {
+                margin-top: 40px;
+            }
+        }
+
         .projet-main {
             row-gap: 40px;
+            margin-top: 40px;
 
             .projet-content {
                 grid-column: 1/13;
+
+                .content-desc {
+                    margin-top: 4vh;
+                    margin-bottom: 4vh;
+                }
             }
 
             .projet__img {
@@ -208,6 +260,10 @@
             }
         }
 
+        .more-project {
+            margin-top: 80px;
+        }
+
         .post {
             .the-post {
                 .the-post__image {
@@ -220,5 +276,18 @@
             }
         }
 
+        .footer {
+            margin-top: 60px;
+        }
+    }
+
+    @media screen and (max-width:480px) {
+        h1 {
+            font-size: 28px;
+        }
+
+        .projet-header {
+            margin-top: 40px;
+        }
     }
 }

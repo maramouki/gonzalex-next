@@ -15,6 +15,12 @@
 
     .burger {
         display: none;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        -webkit-appearance: none;
+        appearance: none;
     }
 
 
