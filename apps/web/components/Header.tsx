@@ -1,10 +1,13 @@
 'use client'
 
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
+  const pathname = usePathname()
+  const isHome = pathname === '/'
 
   return (
     <header id="header" className={`header${isOpen ? ' header--is-open' : ''}`}>
@@ -30,9 +33,11 @@ export function Header() {
 
         {/* Nav menu */}
         <ul className="nav-menu">
-          <li className="nav-main-item">
-            <Link href="/" className="nav-main-link bouton">Projets</Link>
-          </li>
+          {!isHome && (
+            <li className="nav-main-item">
+              <Link href="/" className="nav-main-link bouton">Projets</Link>
+            </li>
+          )}
           <li className="nav-main-item">
             <Link href="/a-propos" className="nav-main-link bouton">À propos</Link>
           </li>

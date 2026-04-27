@@ -9,6 +9,9 @@ import { urlFor } from '@/lib/urlFor'
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
 
 const DESKTOP_BP = 1025
+const CIRCLE_R = 30
+const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_R
+const AUTOPLAY_DELAY = 5000
 
 type Category = { name: string; slug: string } | string
 
@@ -37,6 +40,7 @@ export function HomeSlider({ posts }: { posts: Post[] }) {
   const prevRef = useRef<HTMLDivElement>(null)
   const nextRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const circleRef = useRef<SVGCircleElement | null>(null)
 
   useEffect(() => {
     if (!containerRef.current || !prevRef.current || !nextRef.current) return
@@ -105,7 +109,45 @@ export function HomeSlider({ posts }: { posts: Post[] }) {
       },
     })
 
-    // direction cannot be set in breakpoints — handle via resize
+    // Manual autoplay with RAF-driven progress circle
+    let startTime = performance.now()
+    let rafId: number
+    let paused = false
+
+    const resetProgress = () => {
+      startTime = performance.now()
+      if (circleRef.current) {
+        circleRef.current.style.strokeDashoffset = String(CIRCLE_CIRCUMFERENCE)
+      }
+    }
+
+    const tick = (now: number) => {
+      if (!paused && swiperRef.current) {
+        const elapsed = now - startTime
+        const progress = Math.min(elapsed / AUTOPLAY_DELAY, 1)
+        if (circleRef.current) {
+          circleRef.current.style.strokeDashoffset = String(CIRCLE_CIRCUMFERENCE * (1 - progress))
+        }
+        if (progress >= 1) {
+          swiperRef.current.slideNext()
+          resetProgress()
+        }
+      }
+      rafId = requestAnimationFrame(tick)
+    }
+
+    rafId = requestAnimationFrame(tick)
+
+    // Pause on hover over swiper container
+    const pauseAP = () => { paused = true }
+    const resumeAP = () => { startTime = performance.now() - (AUTOPLAY_DELAY * (1 - (CIRCLE_CIRCUMFERENCE - parseFloat(circleRef.current?.style.strokeDashoffset || String(CIRCLE_CIRCUMFERENCE))) / CIRCLE_CIRCUMFERENCE)); paused = false }
+
+    containerRef.current.addEventListener('mouseenter', pauseAP, { signal })
+    containerRef.current.addEventListener('mouseleave', resumeAP, { signal })
+
+    // Reset on manual slide change
+    swiperRef.current.on('slideChange', resetProgress)
+
     const handleResize = () => {
       const swiper = swiperRef.current
       if (!swiper) return
@@ -126,6 +168,7 @@ export function HomeSlider({ posts }: { posts: Post[] }) {
     window.addEventListener('resize', handleResize, { signal })
 
     return () => {
+      cancelAnimationFrame(rafId)
       controller.abort()
       swiperRef.current?.destroy(true, true)
     }
@@ -181,6 +224,19 @@ export function HomeSlider({ posts }: { posts: Post[] }) {
           <div ref={nextRef} className="swiper-button-next">
             <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M27 21L38 32L27 43" stroke="white" strokeWidth="4"/>
+              <circle
+                ref={circleRef}
+                cx="32"
+                cy="32"
+                r={CIRCLE_R}
+                stroke="white"
+                strokeWidth="2"
+                fill="none"
+                strokeDasharray={CIRCLE_CIRCUMFERENCE}
+                strokeDashoffset={CIRCLE_CIRCUMFERENCE}
+                strokeLinecap="round"
+                transform="rotate(-90 32 32)"
+              />
             </svg>
           </div>
         </div>
