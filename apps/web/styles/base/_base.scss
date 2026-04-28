@@ -1,6 +1,9 @@
-html,
-body {
+html {
     background-color: var(--black);
+    scroll-behavior: smooth;
+}
+
+body {
     scroll-behavior: smooth;
 }
 
