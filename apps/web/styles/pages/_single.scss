@@ -45,6 +45,7 @@
             height: 100%;
             background-color: var(--black);
             overflow: hidden;
+            isolation: isolate;
 
             img {
                 width: 100%;
@@ -53,6 +54,7 @@
                 object-fit: contain;
                 display: block;
                 transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                will-change: transform;
             }
 
             &:hover img {
@@ -93,6 +95,7 @@
         .projet__img {
             grid-column: 7/13;
             overflow: hidden;
+            isolation: isolate;
 
             &:nth-child(3) {
                 grid-column: 1/5;
