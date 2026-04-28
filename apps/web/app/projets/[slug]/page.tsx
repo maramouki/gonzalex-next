@@ -12,7 +12,7 @@ type ProjectItem = { infotitle: string; infodetails: string }
 type GalleryImage = { asset?: { metadata?: { dimensions?: { width: number; height: number } } } }
 type NextProjectPost = { _id: string; title: string; slug: { current: string }; thumbnail: any }
 
-export const dynamic = 'force-static'
+export const revalidate = false
 
 export async function generateStaticParams() {
   const slugs: { slug: string }[] = await client.fetch(allSlugsQuery)

@@ -222,7 +222,7 @@ async function main() {
     // -----------------------------------------------------------------------
     console.log('\n[3/3] Migrating projects…')
     const [posts] = await db.execute(
-      "SELECT ID, post_name, post_date FROM wp_posts WHERE post_type = 'post' AND post_status = 'publish' ORDER BY post_date DESC"
+      "SELECT ID, post_title, post_name, post_date FROM wp_posts WHERE post_type = 'post' AND post_status = 'publish' ORDER BY post_date DESC"
     )
     console.log(`  [db] Found ${posts.length} projects`)
 
@@ -258,12 +258,14 @@ async function main() {
       // Items repeater
       const items = parseRepeater(meta, 'items', ['infotitle', 'infodetails'])
 
-      // Date — take only the date part (before the space)
-      const date = post.post_date ? String(post.post_date).split(' ')[0] : ''
+      // Date — mysql2 returns a JS Date object, convert to YYYY-MM-DD
+      const dateObj = post.post_date instanceof Date ? post.post_date : new Date(post.post_date)
+      const date = !isNaN(dateObj.getTime()) ? dateObj.toISOString().split('T')[0] : ''
 
       await sanity.createOrReplace({
         _id: `projet-${post.ID}`,
         _type: 'projet',
+        title: post.post_title ?? '',
         slug: { _type: 'slug', current: post.post_name },
         date,
         thumbnail,

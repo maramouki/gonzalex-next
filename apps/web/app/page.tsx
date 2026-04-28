@@ -5,7 +5,7 @@ import { LoaderController } from '@/components/LoaderController'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 
-export const dynamic = 'force-static'
+export const revalidate = false
 
 export default async function HomePage() {
   const [posts, settings] = await Promise.all([

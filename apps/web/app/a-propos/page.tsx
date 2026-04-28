@@ -6,7 +6,7 @@ import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import Image from 'next/image'
 
-export const dynamic = 'force-static'
+export const revalidate = false
 
 type Service = { serviceTitle: string; serviceDesc: any[] }
 type Parcour = { date: string; status: string; metier: string }
